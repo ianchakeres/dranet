@@ -156,10 +156,10 @@ func TestStop(t *testing.T) {
 	podUID2 := types.UID("pod-2")
 
 	// Pod 1: Prepared but no NRI activity
-	np.podConfigStore.SetDeviceConfig(podUID1, "random-dev-1", DeviceConfig{})
+	np.podConfigStore.SetDeviceConfig(context.Background(), podUID1, "random-dev-1", DeviceConfig{})
 
 	// Pod 2: Prepared and has recent NRI activity
-	np.podConfigStore.SetDeviceConfig(podUID2, "random-dev-1", DeviceConfig{})
+	np.podConfigStore.SetDeviceConfig(context.Background(), podUID2, "random-dev-1", DeviceConfig{})
 	np.podConfigStore.UpdateLastNRIActivity(podUID2, fakeClock.Now())
 
 	cancelCalled := false

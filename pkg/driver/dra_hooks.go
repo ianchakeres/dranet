@@ -328,7 +328,7 @@ func (np *NetworkDriver) prepareDevice(ctx context.Context, nlHandle nlwrap.Hand
 			return fmt.Errorf("failed to get RDMA device name for IB-only device %s: %v", result.Device, err)
 		}
 		deviceCfg.RDMADevice = buildRDMAConfig(ctx, rdmaDevName)
-		if err := np.podConfigStore.SetDeviceConfig(podUID, result.Device, deviceCfg); err != nil {
+		if err := np.podConfigStore.SetDeviceConfig(ctx, podUID, result.Device, deviceCfg); err != nil {
 			return fmt.Errorf("failed to persist device config for pod %s device %s: %v", podUID, result.Device, err)
 		}
 		deviceCommitted = true
@@ -516,7 +516,7 @@ func (np *NetworkDriver) prepareDevice(ctx context.Context, nlHandle nlwrap.Hand
 		}
 	}
 
-	if err := np.podConfigStore.SetDeviceConfig(podUID, result.Device, deviceCfg); err != nil {
+	if err := np.podConfigStore.SetDeviceConfig(ctx, podUID, result.Device, deviceCfg); err != nil {
 		return fmt.Errorf("failed to persist device config for pod %s device %s: %v", podUID, result.Device, err)
 	}
 	deviceCommitted = true
@@ -600,7 +600,7 @@ func (np *NetworkDriver) unprepareResourceClaim(ctx context.Context, claim kubel
 		}
 	}
 
-	np.podConfigStore.DeleteClaim(claim.NamespacedName)
+	np.podConfigStore.DeleteClaim(ctx, claim.NamespacedName)
 	return nil
 }
 

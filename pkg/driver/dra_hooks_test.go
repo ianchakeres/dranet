@@ -212,7 +212,7 @@ func TestUnprepareResourceClaimsMetrics(t *testing.T) {
 			podConfigStore: mustNewPodConfigStore(),
 		}
 		claimName := types.NamespacedName{Name: "test-claim", Namespace: "test-ns"}
-		np.podConfigStore.SetDeviceConfig("pod-uid-1", "device-a", DeviceConfig{Claim: claimName})
+		np.podConfigStore.SetDeviceConfig(context.Background(), "pod-uid-1", "device-a", DeviceConfig{Claim: claimName})
 
 		claims := []kubeletplugin.NamespacedObject{
 			{NamespacedName: claimName, UID: "claim-uid-1"},
@@ -569,7 +569,7 @@ func TestDynamicProfiles(t *testing.T) {
 
 		claimName := types.NamespacedName{Namespace: "default", Name: "claim-td"}
 		// Inject a profile in pod config store
-		np.podConfigStore.SetDeviceConfig("pod-uid-td", "device-1", DeviceConfig{
+		np.podConfigStore.SetDeviceConfig(context.Background(), "pod-uid-td", "device-1", DeviceConfig{
 			Claim:                       claimName,
 			NetworkInterfaceConfigInPod: apis.NetworkConfig{Profile: "my-profile"},
 		})
