@@ -170,7 +170,7 @@ func TestStop(t *testing.T) {
 	// Run Stop in a separate goroutine because it will block
 	stopDone := make(chan struct{})
 	go func() {
-		np.Stop(cancel)
+		np.Stop(context.Background(), cancel)
 		close(stopDone)
 	}()
 

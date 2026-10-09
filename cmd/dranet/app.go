@@ -255,7 +255,7 @@ func main() {
 	if err != nil {
 		klog.Fatalf("driver failed to start: %v", err)
 	}
-	defer dranet.Stop(cancel)
+	defer dranet.Stop(ctx, cancel)
 
 	ready.Store(true)
 	klog.Info("driver started")
