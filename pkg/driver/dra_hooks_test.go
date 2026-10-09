@@ -970,7 +970,7 @@ func TestGetDeviceNetworkConfigWithWebhook(t *testing.T) {
 			}
 
 			claim := &resourcev1.ResourceClaim{ObjectMeta: metav1.ObjectMeta{UID: "claim-uid-1"}}
-			mergedConf, err := np.getDeviceNetworkConfig("device-1", claim, tc.userConf)
+			mergedConf, err := np.getDeviceNetworkConfig(context.Background(), "device-1", claim, tc.userConf)
 
 			if tc.expectedError {
 				if err == nil {
@@ -1956,7 +1956,7 @@ func TestClearStaleRouteSources(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			clearStaleRouteSources(tc.routes, tc.addresses)
+			clearStaleRouteSources(context.Background(), tc.routes, tc.addresses)
 			for i, want := range tc.wantSources {
 				if tc.routes[i].Source != want {
 					t.Errorf("route %d source = %q, want %q", i, tc.routes[i].Source, want)
