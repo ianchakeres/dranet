@@ -510,7 +510,7 @@ func (np *NetworkDriver) prepareDevice(ctx context.Context, nlHandle nlwrap.Hand
 	// TODO: check if there is some other way to do this
 	if deviceCfg.NetworkInterfaceConfigInPod.Interface.DisableEBPFPrograms != nil &&
 		*deviceCfg.NetworkInterfaceConfigInPod.Interface.DisableEBPFPrograms {
-		err := unpinBPFPrograms(ifName)
+		err := unpinBPFPrograms(ctx, ifName)
 		if err != nil {
 			logger.Error(err, "Error unpinning ebpf programs")
 		}

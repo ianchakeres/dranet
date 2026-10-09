@@ -335,7 +335,7 @@ func configureNetdevInNS(ctx context.Context, ns, deviceName string, config Devi
 
 	// Apply Ethtool configurations
 	if config.NetworkInterfaceConfigInPod.Ethtool != nil {
-		err = applyEthtoolConfig(ns, ifNameInNs, config.NetworkInterfaceConfigInPod.Ethtool)
+		err = applyEthtoolConfig(ctx, ns, ifNameInNs, config.NetworkInterfaceConfigInPod.Ethtool)
 		if err != nil {
 			logger.Error(err, "RunPodSandbox error applying ethtool config", "podInterface", ifNameInNs)
 			return fmt.Errorf("error applying ethtool config for %s in ns %s: %v", ifNameInNs, ns, err)
@@ -345,7 +345,7 @@ func configureNetdevInNS(ctx context.Context, ns, deviceName string, config Devi
 	// Check if the ebpf programs should be disabled
 	if config.NetworkInterfaceConfigInPod.Interface.DisableEBPFPrograms != nil &&
 		*config.NetworkInterfaceConfigInPod.Interface.DisableEBPFPrograms {
-		err = detachEBPFPrograms(ns, ifNameInNs)
+		err = detachEBPFPrograms(ctx, ns, ifNameInNs)
 		if err != nil {
 			logger.Error(err, "Error disabling ebpf programs", "podInterface", ifNameInNs)
 			return fmt.Errorf("error disabling ebpf programs for %s in ns %s: %v", ifNameInNs, ns, err)
